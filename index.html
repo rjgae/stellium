@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f3f3f1">
+<title>Stellium · Vision. Capital. Legacy.</title>
+<meta name="description" content="Holding de participações e investimentos dedicada à criação, estruturação e desenvolvimento de negócios no mercado imobiliário.">
+<link rel="canonical" href="https://stllm.co/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- prévia de link (WhatsApp, redes, buscadores) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stellium">
+<meta property="og:url" content="https://stllm.co/">
+<meta property="og:title" content="Stellium · Vision. Capital. Legacy.">
+<meta property="og:description" content="Holding de participações e investimentos dedicada à criação, estruturação e desenvolvimento de negócios no mercado imobiliário.">
+<meta property="og:image" content="https://stllm.co/previa.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Símbolo de vidro e logotipo da Stellium">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="fontes/Chillax-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fontes/Satoshi-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<script>document.documentElement.dataset.tema = 'claro';   /* site sempre claro */</script>
+<link rel="stylesheet" href="estilo.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+
+<!-- vidro 3D fixo atrás de tudo -->
+<!-- palco: ocupa a página toda; o 3D fica "grudado" na tela dentro dele (sticky,
+     não fixed: no iPhone o Safari corta elementos fixos na altura da barra) -->
+<div class="palco" aria-hidden="true"><canvas id="vidro"></canvas></div>
+<!-- faixa de baixo: texto e 3D somem juntos antes da barra do Safari -->
+<div class="fade-base" aria-hidden="true"></div>
+<div class="fade-topo" aria-hidden="true"></div>
+
+<header class="topo">
+  <a href="#inicio" class="topo-logo" data-ir="#inicio" aria-label="Stellium">
+    <img src="marca/logotipo-stellium-positivo.svg" alt="Stellium" width="96" height="20">   <!-- logotipo oficial, só o nome (o símbolo já aparece em 3D) -->
+  </a>
+  <button class="topo-idioma" data-t-aria="aria-idioma" aria-label="Read in English">
+    <span data-idioma="pt">PT</span><span data-idioma="en">EN</span>
+  </button>
+  <button class="topo-menu" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
+    <span class="topo-menu-icone" aria-hidden="true"><i></i><i></i></span>
+  </button>
+</header>
+
+<nav id="menu" class="menu" aria-hidden="true">
+  <ol class="menu-lista">
+    <li><a href="#quem" data-ir="#quem" data-t="r-quem">Quem somos</a></li>
+    <li><a href="#atuacao" data-ir="#atuacao" data-t="r-atuacao">Nossa atuação</a></li>
+    <li><a href="#modelo" data-ir="#modelo" data-t="r-modelo">Nosso modelo</a></li>
+    <li><a href="#contato" data-ir="#contato" data-t="r-contato">Contato</a></li>
+  </ol>
+  <p class="menu-rodape">Vision. Capital. Legacy.</p>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section id="inicio" class="hero">
+    <div class="ancora" data-escala="0.87" data-escala-desktop="0.66" data-petala="0.873" aria-hidden="true"></div>
+    <div class="hero-conteudo">
+      <h1 class="titulo-hero revela" data-t="t-hero">
+        <span class="linha"><span>Visão para investir.</span></span>
+        <span class="linha"><span>Estrutura para</span></span>
+        <span class="linha"><span>desenvolver.</span></span>
+      </h1>
+      <p class="hero-texto sobe" data-t="p-hero">Uma holding de participações e investimentos dedicada à criação, estruturação e desenvolvimento de negócios no mercado imobiliário.</p>
+    </div>
+    <div class="rolar" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- QUEM SOMOS -->
+  <!-- sem âncora: continua o hero; o símbolo segue aberto até Nossa atuação -->
+  <section id="quem" class="secao continua">
+    <p class="rotulo sobe" data-t="r-quem">Quem somos</p>
+    <h2 class="titulo revela" data-t="t-quem">
+      <span class="linha"><span>Diferentes negócios.</span></span>
+      <span class="linha"><span>Uma mesma visão.</span></span>
+    </h2>
+    <div class="texto-coluna">
+      <p class="sobe" data-t="p-quem-1">A Stellium é uma holding empresarial que reúne investimentos, participações societárias e iniciativas estratégicas no mercado imobiliário e em setores complementares.</p>
+      <p class="sobe" data-t="p-quem-2">Atuamos por meio de empresas controladas, participações e parcerias, combinando conhecimento de mercado, capital e visão de longo prazo para construir negócios e gerar valor.</p>
+    </div>
+    <div class="rolar" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- NOSSA ATUAÇÃO -->
+  <!-- sem espaço no topo: continua o Quem somos (o símbolo segue aberto) -->
+  <section id="atuacao" class="secao atuacao continua">
+    <!-- no celular, nome e título ficam parados em cima da pilha de cartões e
+         sobem junto com ela (os dois no mesmo bloco .atuacao-pilha) -->
+    <div class="atuacao-pilha">
+    <div class="atuacao-topo">
+      <p class="rotulo sobe" data-t="r-atuacao">Nossa atuação</p>
+      <h2 class="titulo revela" data-t="t-atuacao">
+        <span class="linha"><span>Capital, estratégia</span></span>
+        <span class="linha"><span>e desenvolvimento.</span></span>
+      </h2>
+    </div>
+
+    <div class="cartoes">
+      <article class="cartao">
+        <header><h3 data-t="c1-titulo">Participações</h3></header>
+        <p data-t="c1-texto">Investimos e participamos de empresas e negócios, contribuindo para seu crescimento, posicionamento e geração de valor.</p>
+      </article>
+      <article class="cartao">
+        <header><h3 data-t="c2-titulo">Investimentos</h3></header>
+        <p data-t="c2-texto">Identificamos oportunidades e alocamos capital em ativos e operações com fundamentos sólidos e potencial de valorização.</p>
+      </article>
+      <article class="cartao">
+        <header><h3 data-t="c3-titulo">Estruturação</h3></header>
+        <p data-t="c3-texto">Originamos e estruturamos negócios, conectando oportunidades, capital, conhecimento e parceiros estratégicos.</p>
+      </article>
+    </div>
+    </div>
+    <div class="rolar" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- NOSSO MODELO -->
+  <!-- sem espaço no topo: o símbolo fica aberto até o rodapé -->
+  <section id="modelo" class="secao continua">
+    <p class="rotulo sobe" data-t="r-modelo">Nosso modelo</p>
+    <h2 class="titulo revela" data-t="t-modelo">
+      <span class="linha"><span>Uma estrutura.</span></span>
+      <span class="linha"><span>Múltiplas</span></span>
+      <span class="linha"><span>possibilidades.</span></span>
+    </h2>
+    <div class="texto-coluna">
+      <p class="sobe" data-t="p-modelo">Cada negócio tem sua própria natureza. Por isso, atuamos com diferentes modelos de investimento e participação, por meio de empresas controladas, sociedades e parcerias estratégicas.</p>
+      <p class="destaque sobe" data-t="p-destaque">Uma estrutura empresarial concebida para crescer, diversificar e construir valor ao longo do tempo.</p>
+    </div>
+    <div class="rolar" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- CONTATO -->
+  <!-- sem âncora: continua Nosso modelo; o símbolo fica aberto até o fim -->
+  <section id="contato" class="secao continua">
+    <p class="rotulo sobe" data-t="r-contato">Contato</p>
+    <h2 class="titulo revela" data-t="t-contato">
+      <span class="linha"><span>Relações construídas</span></span>
+      <span class="linha"><span>para durar.</span></span>
+    </h2>
+    <a class="email sobe" href="mailto:info@stllm.co"><span>info@stllm.co</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M8.5 6H18v9.5" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </section>
+
+</main>
+
+<button class="subir" data-t-aria="aria-subir" aria-label="Voltar ao topo">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+</button>
+
+<footer class="rodape">
+  <div class="rodape-marca">
+    <!-- lugar vazio: o próprio símbolo 3D chega aqui no fim da página -->
+    <span class="rodape-simbolo" aria-hidden="true"></span>
+    <img class="rodape-nome" src="marca/logotipo-stellium-negativo.svg" alt="Stellium" width="80" height="17">
+  </div>
+  <div class="rodape-linha">
+    <p class="rodape-slogan">Vision. Capital. Legacy.</p>
+    <!-- razão social e CNPJ (igual em PT e EN); a ABS Holding entra depois (ver pendencias.md) -->
+    <p class="rodape-empresa">Stellium Ltda. · CNPJ 68.147.936/0001-83</p>   <!-- e-mail só no contato -->
+    <p class="rodape-copy" data-t="copy">© 2026 Stellium. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<!-- idioma antes de carregar o resto (quem abre em inglês não vê o português piscar) -->
+<script>
+  /* PT / EN. O português está escrito na página; aqui fica o inglês.
+     Títulos têm o mesmo número de linhas nas duas línguas (as animações usam as linhas).
+     Abre na língua escolhida antes pelo botão; sem escolha, segue o idioma do aparelho. */
+  (function () {
+    var EN = {
+      'r-quem': 'Who we are',
+      'r-atuacao': 'What we do',
+      'r-modelo': 'Our model',
+      'r-contato': 'Contact',
+      't-hero': ['Vision to invest.', 'Structure to', 'develop.'],
+      'p-hero': 'A holding company of equity stakes and investments, dedicated to creating, structuring and developing real estate businesses.',
+      't-quem': ['Different businesses.', 'One shared vision.'],
+      'p-quem-1': 'Stellium is a holding company that brings together investments, equity holdings and strategic initiatives in real estate and complementary sectors.',
+      'p-quem-2': 'We operate through controlled companies, equity stakes and partnerships, combining market knowledge, capital and a long-term vision to build businesses and create value.',
+      't-atuacao': ['Capital, strategy', 'and development.'],
+      'c1-titulo': 'Equity stakes',
+      'c1-texto': 'We invest in and hold stakes in companies and ventures, contributing to their growth, positioning and value creation.',
+      'c2-titulo': 'Investments',
+      'c2-texto': 'We identify opportunities and allocate capital to assets and operations with solid fundamentals and appreciation potential.',
+      'c3-titulo': 'Structuring',
+      'c3-texto': 'We originate and structure ventures, connecting opportunities, capital, expertise and strategic partners.',
+      't-modelo': ['One structure.', 'Multiple', 'possibilities.'],
+      'p-modelo': 'Every business has its own nature. That is why we work with different investment and ownership models, through controlled companies, joint ventures and strategic partnerships.',
+      'p-destaque': 'A business structure designed to grow, diversify and build value over time.',
+      't-contato': ['Relationships built', 'to last.'],
+      'copy': '© 2026 Stellium. All rights reserved.',
+      'aria-idioma': 'Ler em português',
+      'aria-subir': 'Back to top',
+      'menu-abrir': 'Open menu',
+      'menu-fechar': 'Close menu',
+      'descricao': 'A holding company of equity stakes and investments, dedicated to creating, structuring and developing real estate businesses.'
+    };
+    var PT = {
+      'aria-idioma': 'Read in English',
+      'menu-abrir': 'Abrir menu',
+      'menu-fechar': 'Fechar menu'
+    };
+    var descricao = document.querySelector('meta[name="description"]');
+
+    // guarda o português que está na página
+    document.querySelectorAll('[data-t]').forEach(function (el) {
+      var k = el.dataset.t;
+      if (PT[k] !== undefined) return;
+      var linhas = el.querySelectorAll('.linha > span');
+      PT[k] = linhas.length ? [].map.call(linhas, function (s) { return s.textContent; }) : el.innerHTML;
+    });
+    document.querySelectorAll('[data-t-aria]').forEach(function (el) {
+      if (PT[el.dataset.tAria] === undefined) PT[el.dataset.tAria] = el.getAttribute('aria-label');
+    });
+    PT.descricao = descricao.content;
+
+    var atual = 'pt';
+    function aplicar(lingua) {
+      var D = lingua === 'en' ? EN : PT;
+      atual = lingua;
+      document.documentElement.lang = lingua === 'en' ? 'en' : 'pt-BR';
+      document.documentElement.dataset.idioma = lingua;
+      document.querySelectorAll('[data-t]').forEach(function (el) {
+        var v = D[el.dataset.t];
+        if (Array.isArray(v)) el.querySelectorAll('.linha > span').forEach(function (s, i) { s.textContent = v[i] || ''; });
+        else el.innerHTML = v;
+      });
+      document.querySelectorAll('[data-t-aria]').forEach(function (el) { el.setAttribute('aria-label', D[el.dataset.tAria]); });
+      descricao.content = D.descricao;
+    }
+
+    var inicial = null;
+    try { inicial = localStorage.getItem('stellium-idioma'); } catch (e) {}
+    if (inicial !== 'pt' && inicial !== 'en') inicial = /^pt\b/i.test(navigator.language || 'pt') ? 'pt' : 'en';
+    aplicar(inicial);
+
+    window.idioma = {
+      aplicar: aplicar,
+      atual: function () { return atual; },
+      texto: function (k) { return (atual === 'en' ? EN : PT)[k]; },
+      salvar: function (l) { try { localStorage.setItem('stellium-idioma', l); } catch (e) {} }
+    };
+  })();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
