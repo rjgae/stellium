@@ -1,3 +1,5 @@
 # interno: não vai para o site publicado
 pedidos-do-cliente/
 pendencias.md
+# domínio próprio: volta ao Git quando o DNS existir
+CNAME
