@@ -291,7 +291,7 @@ const lugarRodape = document.querySelector('.rodape-simbolo');
 const marcaRodape = document.querySelector('.rodape-marca');
 // ida para o logo: 0 → 1 em ~1,6 s quando a página chega ao fim
 let rodapeAlvo = 0, rodapeAnda = 0;
-let CENTRO_TELA = 0.48;   // altura do centro do símbolo aberto (fração da tela)
+const CENTRO_TELA = 0.48;   // altura do centro do símbolo aberto (fração da tela)
 const RODAPE_DURACAO = 2.2;   // chegar ao meio ~1 s, pausa ~0,4 s, ir para o lado ~0,8 s
 function estadoSimbolo() {
   const H = innerHeight;
@@ -446,9 +446,9 @@ addEventListener('resize', ajustarCanvas);
 
 const qA = new THREE.Quaternion(), qB = new THREE.Quaternion(), qC = new THREE.Quaternion();
 let giroPetalas = 0;
-let DESFOQUE = 0;   // desfoque do símbolo 3D em px (no rodapé volta a 0)
-let OPACIDADE = 1;   // opacidade do símbolo 3D (no rodapé ele volta a 100%)
-let ROLAR = 1;   // voltas da pétala no próprio eixo por volta do anel (só aberto); 0 = não gira
+const DESFOQUE = 0;   // desfoque do símbolo 3D em px (no rodapé volta a 0)
+const OPACIDADE = 1;   // opacidade do símbolo 3D (no rodapé ele volta a 100%)
+const ROLAR = 1;   // voltas da pétala no próprio eixo por volta do anel (só aberto); 0 = não gira
 const pos = new THREE.Vector3();
 const ponteiro = { x: 0, y: 0, ax: 0, ay: 0 };   // inclinação seguindo o mouse (só computador)
 let t = 0;
@@ -458,92 +458,8 @@ let abertoAntes = 0, fimAntes = 0, giroExtra = 0;
 const GIRO_BASE = 0.2, GIRO_POR_ABERTURA = 0.9;
 const nomeRodape = document.querySelector('.rodape-nome');
 const textosRodape = [...document.querySelectorAll('.rodape-linha > p')];   // slogan, empresa, ©: de cima para baixo
-let CRESCER_PETALA = 1.3;   // aberto, cada pétala fica no máximo 30% maior
-let PERTO_VIAGEM = 1.10;    // aberto, o anel ocupa ~a altura da tela (as pétalas de cima e de baixo nas bordas)
-// AJUSTE TEMPORÁRIO: barrinhas na lateral para testar o símbolo aberto
-// (anel = distância entre as pétalas; pos = altura na tela; pét = tamanho;
-// giro = giro de cada pétala no próprio eixo). Um botão com seta abre e fecha.
-{
-  const painel = document.createElement('div');
-  painel.style.cssText = 'position:fixed;top:calc(var(--topo) + 16px);left:calc(var(--lateral) + 4px);z-index:30;' +
-    'display:flex;flex-direction:column;align-items:flex-start;gap:8px;pointer-events:none';
-  painel.setAttribute('data-lenis-prevent', '');
-  const vidroClaro = 'background:rgba(255,255,255,.8);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);' +
-    'box-shadow:0 0 0 1px rgba(0,0,0,.08);color:#222;font:500 12px/16px ui-monospace,monospace';
-  // topo: botão com seta + aviso
-  const linha = document.createElement('div');
-  linha.style.cssText = 'display:flex;align-items:center;gap:8px;pointer-events:none';
-  const botao = document.createElement('button');
-  botao.type = 'button'; botao.setAttribute('aria-label', 'Abrir ajustes');
-  botao.style.cssText = vidroClaro + ';width:36px;height:36px;border:0;border-radius:50%;padding:0;cursor:pointer;' +
-    'display:grid;place-items:center;pointer-events:auto';
-  botao.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" ' +
-    'stroke-linecap="round" stroke-linejoin="round" style="transition:transform .4s"><path d="M6 3l5 5-5 5"/></svg>';
-  const seta = botao.firstChild;
-  const aviso = document.createElement('span');
-  aviso.textContent = 'Abra para editar';
-  aviso.style.cssText = vidroClaro + ';padding:4px 12px;border-radius:12px;white-space:nowrap;' +
-    'opacity:0;transform:translateX(-8px);transition:opacity .5s,transform .5s';
-  linha.append(botao, aviso);
-  // as barrinhas
-  const grupo = document.createElement('div');   // caixa única com todas as barrinhas, no meio da tela
-  const fechado = 'translate(-50%, -50%) scale(.96)';
-  grupo.style.cssText = vidroClaro + ';position:fixed;left:50%;top:50%;width:min(288px, calc(100vw - 32px));' +
-    'box-sizing:border-box;padding:16px;border-radius:24px;display:flex;flex-direction:column;gap:12px;' +
-    'touch-action:none;overscroll-behavior:contain;pointer-events:none;opacity:0;transform:' + fechado + ';transition:transform .4s cubic-bezier(.22,1,.36,1),opacity .4s';
-  const barrinha = (nome, min, max, ler, gravar, mostrar) => {
-    const caixa = document.createElement('label');
-    caixa.style.cssText = 'display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center';
-    const rotulo = document.createElement('span'); rotulo.textContent = nome;
-    const valor = document.createElement('span');
-    const barra = document.createElement('input');
-    barra.type = 'range'; barra.min = min; barra.max = max; barra.step = '0.01'; barra.value = ler();
-    barra.style.cssText = 'grid-column:1 / -1;width:100%;height:28px;margin:0;accent-color:#222';
-    const atualizar = () => { valor.textContent = mostrar(); };
-    barra.addEventListener('input', () => { gravar(parseFloat(barra.value)); atualizar(); });
-    // arrasto próprio: o dedo em qualquer ponto da barrinha move o valor, e a
-    // página embaixo não rola (touch-action:none na caixa)
-    const porDedo = e => {
-      const r = barra.getBoundingClientRect();
-      const f = Math.min(Math.max((e.clientX - r.left) / r.width, 0), 1);
-      barra.value = min + (max - min) * f;
-      gravar(parseFloat(barra.value)); atualizar();
-    };
-    barra.addEventListener('pointerdown', e => { e.preventDefault(); barra.setPointerCapture(e.pointerId); porDedo(e); });
-    barra.addEventListener('pointermove', e => { if (barra.hasPointerCapture(e.pointerId)) porDedo(e); });
-    atualizar();
-    caixa.append(rotulo, valor, barra);
-    grupo.append(caixa);
-  };
-  barrinha('Tamanho do anel', 0.8, 2.2, () => PERTO_VIAGEM, v => { PERTO_VIAGEM = v; }, () => Math.round(PERTO_VIAGEM * 100) + '%');
-  // posição: para a direita na barrinha = símbolo mais alto na tela
-  barrinha('Posição', 0.3, 0.7, () => 1 - CENTRO_TELA, v => { CENTRO_TELA = 1 - v; }, () => Math.round(CENTRO_TELA * 100) + '%');
-  barrinha('Tamanho da pétala', 0.5, 2.5, () => CRESCER_PETALA, v => { CRESCER_PETALA = v; }, () => CRESCER_PETALA.toFixed(2) + 'x');
-  barrinha('Giro da pétala', 0, 12, () => ROLAR, v => { ROLAR = v; }, () => ROLAR.toFixed(1));
-  barrinha('Opacidade', 0, 1, () => OPACIDADE, v => { OPACIDADE = v; }, () => Math.round(OPACIDADE * 100) + '%');
-  barrinha('Desfoque', 0, 20, () => DESFOQUE, v => { DESFOQUE = v; }, () => DESFOQUE.toFixed(1) + ' px');
-  painel.append(linha, grupo);
-  ['touchstart', 'touchmove', 'wheel'].forEach(ev => painel.addEventListener(ev, e => e.stopPropagation(), { passive: true }));
-  // toque na caixa aberta: a tela embaixo não rola
-  grupo.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
-  grupo.addEventListener('wheel', e => e.preventDefault(), { passive: false });
-  document.body.append(painel);
-  // abre e fecha só pelo botão (rolar a página não mexe nelas)
-  let aberto = false;
-  const mostrarAviso = sim => { aviso.style.opacity = sim ? '1' : '0'; aviso.style.transform = sim ? 'none' : 'translateX(-8px)'; };
-  botao.addEventListener('click', () => {
-    aberto = !aberto;
-    grupo.style.opacity = aberto ? '1' : '0';
-    grupo.style.transform = aberto ? 'translate(-50%, -50%)' : fechado;
-    grupo.style.pointerEvents = aberto ? 'auto' : 'none';
-    seta.style.transform = aberto ? 'rotate(180deg)' : 'none';
-    botao.setAttribute('aria-label', aberto ? 'Fechar ajustes' : 'Abrir ajustes');
-    mostrarAviso(false);
-  });
-  // ao abrir a página: o aviso aparece ao lado da seta e some sozinho
-  setTimeout(() => mostrarAviso(true), 1200);
-  setTimeout(() => mostrarAviso(false), 6200);
-}
+const CRESCER_PETALA = 1.3;   // aberto, cada pétala fica no máximo 30% maior
+const PERTO_VIAGEM = 1.10;    // aberto, o anel ocupa ~a altura da tela (as pétalas de cima e de baixo nas bordas)
 
 let foraDaTela = false;
 function desenhar(_, dtMs) {
